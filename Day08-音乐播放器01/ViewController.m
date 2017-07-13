@@ -13,8 +13,6 @@
 #import "NSMutableArray+extension.h"
 #import "Header.h"
 
-#define WIDTH  [UIScreen mainScreen].bounds.size.width
-#define HEIGHT  [UIScreen mainScreen].bounds.size.height
 
 @interface ViewController ()<UIScrollViewDelegate,UITableViewDataSource,UITableViewDelegate>
 {
@@ -24,7 +22,7 @@
     UILabel *currentTimeLabel;
     UILabel *fullTimeLabel;
     NSArray *_music;
-    NSMutableArray *randomMusicArray;
+//    NSMutableArray *randomMusicArray;
     int index;
     UIButton *playBtn;
     UILabel *musicNameLabel;
@@ -41,6 +39,8 @@
     LrcParser *lrcContent;
     NSTimer *timer;
     NSInteger currentRow;
+    UITableView *listTableView;
+    UILabel *listLabel;
 //    BOOL isShow;
 }
 @end
@@ -54,6 +54,7 @@
     
     //获取当前应用束下所有的mp3音乐
     _music = [[NSBundle mainBundle]pathsForResourcesOfType:@"mp3" inDirectory:nil];
+    
 //    randomMusic = [[NSMutableArray alloc]initWithCapacity:_music.count];
     //把第一首音乐转成URL格式
     NSURL *fileURL = [[NSURL alloc]initFileURLWithPath:_music[0]];
@@ -225,7 +226,27 @@
 }
 -(void)musicList:(id)sender{
     
+    listLabel=[[UILabel alloc]initWithFrame:CGRectMake(0, HEIGHT/2-25, WIDTH, 45)];
+    listLabel.backgroundColor=[UIColor lightGrayColor];
+    listLabel.text=@"    播放队列";
+    listLabel.textColor=[UIColor whiteColor];
+    [self.view addSubview:listLabel];
+    
+    UIButton *btn=[[UIButton alloc]initWithFrame:CGRectMake(340, HEIGHT/2-18, 80, 30)];
+    [btn setTitle:@"取消" forState:UIControlStateNormal];
+    [btn addTarget:self action:@selector(moveFromListTableView:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:btn];
+    
+    
+    listTableView=[[UITableView alloc]initWithFrame:CGRectMake(0,HEIGHT/2+20, WIDTH, HEIGHT/2-20)];
+    listTableView.separatorStyle=UITableViewCellSeparatorStyleNone;
+    listTableView.delegate=self;
+    listTableView.dataSource=self;
+    [self.view addSubview:listTableView];
+    
+    
 }
+
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
     int page = scrollView.contentOffset.x /(WIDTH*0.7);
     pageControl.currentPage = page;
@@ -258,7 +279,9 @@
         
 //        int randomIndex = arc4random_uniform((u_int32_t )_music.count);
 //        NSLog(@"%d",randomIndex);
-        NSURL *fileURL = [[NSURL alloc]initFileURLWithPath:randomMusicArray[index]];
+
+        index = arc4random_uniform((u_int32_t)_music.count);
+        NSURL *fileURL = [[NSURL alloc]initFileURLWithPath:_music[index]];
         [self playMusicWithFileURL:fileURL];
     }
     else{
@@ -440,33 +463,26 @@
     if ([playType  isEqual: @"loop"]) {
         [btn setImage:[UIImage imageNamed:@"single.png"] forState:UIControlStateNormal];
         playType = @"single";
-//        alertController = [UIAlertController alertControllerWithTitle:@"单曲循环" message:@"" preferredStyle:UIAlertControllerStyleAlert];
         alertLabel.text = @"单曲循环";
     }
     else if ([playType isEqual:@"single"]){
         [btn setImage:[UIImage imageNamed:@"random.png"] forState:UIControlStateNormal];
         playType = @"random";
-        randomMusicArray = [[NSMutableArray alloc]initWithArray:_music];
-//        alertController = [UIAlertController alertControllerWithTitle:@"随机播放" message:@"" preferredStyle:UIAlertControllerStyleAlert];
-        [randomMusicArray shuffle];
+//        randomMusicArray = [[NSMutableArray alloc]initWithArray:_music];
+//        [randomMusicArray shuffle];
         alertLabel.text = @"随机播放";
     }
     else if([playType isEqual:@"random"]){
         [btn setImage:[UIImage imageNamed:@"loop.png"] forState:UIControlStateNormal];
-//        alertController = [UIAlertController alertControllerWithTitle:@"列表循环" message:@"" preferredStyle:UIAlertControllerStyleAlert];
         playType = @"loop";
         alertLabel.text = @"列表循环";
     }
     else{
         NSLog(@"error:播放模式错误。playType:%@",playType);
     }
-//    [self presentViewController:alertController animated:NO completion:nil];
-//    [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(createAlert:) userInfo:alertController repeats:NO];
     [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(dimissAlertLabel:) userInfo:alertLabel repeats:NO];
     
     [self.view addSubview:alertLabel];
-//    isShow = YES;
-    
 }
 -(void)dimissAlertLabel:(NSTimer *)timer{
     
@@ -476,30 +492,69 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return lrcContent.wordArray.count;
+    if([tableView isEqual:lrcTable])
+        return lrcContent.wordArray.count;
+    else if([tableView isEqual:listTableView])
+        return _music.count;
+    else
+        return 0;
 }
+
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *ID = @"cell";
     UITableViewCell *cell = [lrcTable dequeueReusableCellWithIdentifier:ID];
-    
     if (cell == nil) {
         cell = [[UITableViewCell alloc]
                 initWithStyle:UITableViewCellStyleDefault
                 reuseIdentifier: ID];
     }
     
-    cell.textLabel.text=lrcContent.wordArray[indexPath.row];
-    if(indexPath.row==currentRow)
-        cell.textLabel.textColor = [UIColor colorWithRed:115.0/256.0 green:138.0/256.0 blue:149.0/256.0 alpha:1.0];
-    else
-        cell.textLabel.textColor = [UIColor grayColor];
+    if([tableView isEqual:lrcTable])
+    {
+       cell.textLabel.text=lrcContent.wordArray[indexPath.row];
+       if(indexPath.row==currentRow)
+           cell.textLabel.textColor = [UIColor colorWithRed:115.0/256.0 green:138.0/256.0 blue:149.0/256.0 alpha:1.0];
+       else
+           cell.textLabel.textColor = [UIColor grayColor];
     
-    cell.textLabel.textAlignment = NSTextAlignmentCenter;
-    cell.textLabel.font = [UIFont systemFontOfSize:15];
-    cell.backgroundColor=[UIColor clearColor];
+        cell.textLabel.textAlignment = NSTextAlignmentCenter;
+        cell.textLabel.font = [UIFont systemFontOfSize:15];
+        cell.backgroundColor=[UIColor clearColor];
+    }
     
-    return cell;
+    else if ([tableView isEqual:listTableView]){
+        NSURL *url=[[NSURL alloc]initFileURLWithPath:_music[indexPath.row]];
+        NSString *musicName=[self getMusicName:url];
+        cell.textLabel.text=[NSString stringWithFormat:@"%02d %@",(int)(indexPath.row+1),musicName];
+//        cell.textLabel.backgroundColor=[UIColor lightGrayColor];
+        
+
+//        for(int i=0;i<_music.count;i++){
+//            NSURL *url=[[NSURL alloc]initFileURLWithPath:_music[i]];
+//            if([audioPlayer.url isEqual:url])
+//                currentIndex=i;
+//        }
+        if(indexPath.row==index)
+            cell.textLabel.textColor=[UIColor orangeColor];
+        }
+        else
+            cell.textLabel.textColor=[UIColor blackColor];
+    
+    
+        return cell;
 }
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    UITableViewCell *cell=[tableView cellForRowAtIndexPath:indexPath];
+    if([tableView isEqual:listTableView]){
+        index = (int)indexPath.row;
+        NSURL *fileURL = [[NSURL alloc]initFileURLWithPath:_music[index]];
+        [self playMusicWithFileURL:fileURL];
+    }
+
+}
+
+
 -(void) updateTime{
     CGFloat currentTime=audioPlayer.currentTime;
     for (int i=0; i<lrcContent.timerArray.count; i++) {
@@ -527,6 +582,10 @@
 //    return [UIImage imageWithCGImage:ref];
 //}
 
-
+-(void)moveFromListTableView:(id)sender{
+    [listTableView removeFromSuperview];
+    [listLabel removeFromSuperview];
+    
+}
 
 @end
