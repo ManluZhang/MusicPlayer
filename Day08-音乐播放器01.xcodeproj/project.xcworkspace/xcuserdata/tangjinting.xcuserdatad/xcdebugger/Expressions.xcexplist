@@ -9,7 +9,7 @@
                value = "cell.textLabel.text">
             </PersistentString>
             <PersistentString
-               value = "musicName[1]">
+               value = "currentIndexPath.row">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
