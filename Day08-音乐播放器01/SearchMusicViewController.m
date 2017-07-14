@@ -10,7 +10,7 @@
 #import "Header.h"
 #import "UIView+Extension.h"
 #import "PlayMusicViewController.h"
-@interface SearchMusicViewController()<UIScrollViewDelegate>
+@interface SearchMusicViewController()<UIScrollViewDelegate,UISearchBarDelegate>
 
 @property (nonatomic,strong) UIScrollView *scrollView;
 @property (nonatomic,strong) NSTimer *timer;
@@ -20,6 +20,8 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     
+
+    
     
     //搜索框view
     UIView *searchView = [[UIView alloc]initWithFrame:CGRectMake(0, 20, WIDTH, 50)];
@@ -28,10 +30,15 @@
     
     //搜索框
     UISearchBar *searchBar = [[UISearchBar alloc]initWithFrame:CGRectMake(0, 0, WIDTH-50, 50)];
+    searchBar.delegate = self;
     searchBar.placeholder = @"搜索音乐、歌词、电台";
     searchBar.backgroundColor =[UIColor clearColor];
     searchBar.backgroundImage = [self imageWithColor:[UIColor clearColor] size:searchBar.bounds.size];
+
+//    [self.searchBar setSearchFieldBackgroundImage:[UIImage imageNamed:@"image3"] forState:UIControlStateNormal];// 设置搜索框中文本框的背景
+    
     [searchView addSubview:searchBar];
+   
     
     //右侧按钮－点击进入播放音乐
     UIButton *btn = [[UIButton alloc]initWithFrame:CGRectMake(WIDTH-50, 0, 50, 50)];
@@ -41,9 +48,11 @@
     
     [self.view addSubview:searchView];
     
+    //纵向滚动视图
+    UIScrollView *mainScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, searchView.height+searchView.y, WIDTH, HEIGHT)];
     
-    //滚动视图
-    _scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 70, WIDTH, WIDTH*280/750)];
+    //横向滚动视图
+    _scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, WIDTH, WIDTH*280/750)];
     _scrollView.backgroundColor = [UIColor clearColor];
     
     NSArray *imageNameArray = @[@"5.PNG",@"1.PNG",@"2.PNG",@"3.PNG",@"4.PNG",@"5.PNG",@"1.PNG"];
@@ -62,37 +71,56 @@
     _scrollView.delegate = self;
     [_scrollView setContentOffset:CGPointMake(WIDTH, 0) animated:NO];
     [self startTimer];
-    [self.view addSubview:_scrollView];
+    [mainScrollView addSubview:_scrollView];
     
+    //推荐歌单
     UIView *recommendMusicView = [[UIView alloc]initWithFrame:CGRectMake(0, _scrollView.height+_scrollView.y +10, WIDTH, 300)];
     recommendMusicView.backgroundColor = [UIColor redColor];
     
     UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, WIDTH, 40)];
     titleLabel.text = @"推荐歌单";
     titleLabel.backgroundColor = [UIColor blueColor];
-    
-    NSArray *array = @[@"华语绝妙改编，把旧歌谣唱出新鲜味",@"融合爵士，七十年代巅峰爵士音乐大师精选",@"后摇，孤独而不孤阴郁自行者",@"高效率专注记忆音乐",@"欧美，心有盏小橘灯，温暖如斯",@"史诗纯音，画面感max 震撼灵魂"];
-    
-    
     [recommendMusicView addSubview:titleLabel];
+    
+    NSArray *recommendArray = @[@"华语绝妙改编，把旧歌谣唱出新鲜味",@"融合爵士，七十年代巅峰爵士音乐大师精选",@"后摇，孤独而不孤阴郁自行者",@"高效率专注记忆音乐",@"欧美，心有盏小橘灯，温暖如斯",@"史诗纯音，画面感max 震撼灵魂"];
+    [self addCubeImage:@"cube" contentView:recommendMusicView textArray:recommendArray];
+
+    [mainScrollView addSubview:recommendMusicView];
+    
+    
+    UIView *newMusicView = [[UIView alloc]initWithFrame:CGRectMake(0, recommendMusicView.y+recommendMusicView.height+10, WIDTH, 500)];
+    newMusicView.backgroundColor = [UIColor orangeColor];
+    UILabel *titleLabelNew = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, WIDTH, 50)];
+    titleLabelNew.text = @"最新音乐";
+    titleLabelNew.backgroundColor = [UIColor purpleColor];
+    [newMusicView addSubview:titleLabelNew];
+    NSArray *newMusicArray = @[@"新歌推荐",@"Coming Home——潘玮柏",@"把我拥抱 习谱予",@"True Feeling Galantis",@"H.A.C.K 茶理理",@"Stay With You Cheat Codes/CADE"];
+    [self addCubeImage:@"new" contentView:newMusicView textArray:newMusicArray];
+    
+    [mainScrollView addSubview:newMusicView];
+    
+    
+    mainScrollView.contentSize = CGSizeMake(WIDTH, newMusicView.y+newMusicView.height);
+    mainScrollView.showsHorizontalScrollIndicator = YES;
+    
+    [self.view addSubview:mainScrollView];
+    
+}
+//添加cube image
+- (void)addCubeImage:(NSString *)imageName contentView:(UIView *)view textArray:(NSArray*)array
+{
     for (int i = 0 ; i < 2; i++) {
         for (int j = 0; j < 3; j ++) {
             UIImageView *cubeImgView = [[UIImageView alloc]initWithFrame:CGRectMake(j*(WIDTH-10)/3+5*j, i*(WIDTH-10)/3+40+i*40, (WIDTH-10)/3, (WIDTH-10)/3)];
-            [cubeImgView setImage:[UIImage imageNamed:[NSString stringWithFormat:@"cube%d.png",i*3+j+1]]];
-            [recommendMusicView addSubview:cubeImgView];
+            [cubeImgView setImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@%d.png",imageName,i*3+j+1]]];
+            [view addSubview:cubeImgView];
             
             UILabel *textLabel = [[UILabel alloc]initWithFrame:CGRectMake(cubeImgView.x, cubeImgView.y+cubeImgView.height, cubeImgView.width, 40)];
             textLabel.text = array[i*2+j];
             textLabel.font = [UIFont systemFontOfSize:13];
-            [recommendMusicView addSubview:textLabel];
+            [view addSubview:textLabel];
         }
     }
-
-    
-    [self.view addSubview:recommendMusicView];
-    
-    
-    
 }
 //取消searchbar背景色
 - (UIImage *)imageWithColor:(UIColor *)color size:(CGSize)size
@@ -169,6 +197,41 @@
     [self.navigationController pushViewController:playMusicVC animated:YES];
     
 }
-
+// UISearchBar得到焦点并开始编辑时，执行该方法
+- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar{
+    [searchBar setShowsCancelButton:YES animated:YES];
+    for(id cc in [searchBar subviews])
+    {
+        for (UIView *view in [cc subviews]) {
+            if ([NSStringFromClass(view.class) isEqualToString:@"UINavigationButton"])
+            {
+                UIButton *btn = (UIButton *)view;
+                [btn setTitle:@"取消" forState:UIControlStateNormal];
+//                [btn setTintColor:[UIColor grayColor]];
+//                btn.titleLabel.font = [UIFont systemFontOfSize:13];
+                
+            }
+        }
+    }
+    return YES;
+}
+//开始编辑搜索框内容时
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
+{
+    
+}
+//搜索框取消按钮点击时
+-(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+    searchBar.showsCancelButton = NO;
+    searchBar.text = nil;
+    [searchBar resignFirstResponder];
+    
+}
+//键盘按下search按钮时调用
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    
+}
 
 @end

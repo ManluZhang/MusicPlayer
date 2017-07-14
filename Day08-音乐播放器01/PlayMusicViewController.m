@@ -12,7 +12,7 @@
 #import "LrcParser.h"
 #import "NSMutableArray+extension.h"
 #import "Header.h"
-
+#import "MusicArray.h"
 
 @interface PlayMusicViewController ()<UIScrollViewDelegate,UITableViewDataSource,UITableViewDelegate>
 {
@@ -21,7 +21,7 @@
     UISlider *progressSlider;
     UILabel *currentTimeLabel;
     UILabel *fullTimeLabel;
-    NSArray *_music;
+    MusicArray *_music;
     //    NSMutableArray *randomMusicArray;
     int index;
     UIButton *playBtn;
@@ -49,16 +49,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    UIButton *backBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 50, 50)];
-    backBtn.backgroundColor = [UIColor redColor];
-    [backBtn addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:backBtn];
-    
-    
-    
+
     //获取当前应用束下所有的mp3音乐
-    _music = [[NSBundle mainBundle]pathsForResourcesOfType:@"mp3" inDirectory:nil];
+    _music = [[MusicArray alloc]init];;
     
     //    randomMusic = [[NSMutableArray alloc]initWithCapacity:_music.count];
     //把第一首音乐转成URL格式
@@ -217,6 +210,14 @@
     [lrcContent doParseLrc:[self getMusicName:fileURL]];
     [lrcTable reloadData];//重新刷一下表
     [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(updateTime) userInfo:nil repeats:YES];
+    
+    
+    UIButton *backBtn = [[UIButton alloc]initWithFrame:CGRectMake(5, 20, 30, 30)];
+    //    backBtn.backgroundColor = [UIColor redColor];
+    [backBtn setImage:[UIImage imageNamed:@"back.png"] forState:UIControlStateNormal];
+    
+    [backBtn addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:backBtn];
     
     
     //    UIBlurEffect *beffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleExtraLight];
@@ -601,6 +602,7 @@
 }
 -(void)back{
     [self.navigationController popViewControllerAnimated:YES];
+    self.tabBarController.tabBar.hidden = NO;
 }
 
 @end
