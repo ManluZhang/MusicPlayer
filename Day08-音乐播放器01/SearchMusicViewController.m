@@ -10,9 +10,12 @@
 #import "Header.h"
 #import "UIView+Extension.h"
 #import "PlayMusicViewController.h"
+#import "MusicArray.h"
+#import "Music.h"
 @interface SearchMusicViewController()<UIScrollViewDelegate,UISearchBarDelegate>
 {
     UIScrollView *searchScrollView;
+    MusicArray *music;
 }
 @property (nonatomic,strong) UIScrollView *scrollView;
 @property (nonatomic,strong) NSTimer *timer;
@@ -22,6 +25,8 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     
+    music = [[MusicArray alloc]init];
+//    [music addMusic];
     //搜索框view
     UIView *searchView = [[UIView alloc]initWithFrame:CGRectMake(0, 20, WIDTH, 50)];
     //背景颜色
@@ -207,9 +212,6 @@
             {
                 UIButton *btn = (UIButton *)view;
                 [btn setTitle:@"取消" forState:UIControlStateNormal];
-//                [btn setTintColor:[UIColor grayColor]];
-//                btn.titleLabel.font = [UIFont systemFontOfSize:13];
-                
             }
         }
     }
@@ -241,7 +243,9 @@
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
     NSLog(@"%@",searchBar.text);
-    
+    for (Music *obj in music.musicMutableArray) {
+        NSLog(@"%@",obj.name);
+    }
 }
 
 @end

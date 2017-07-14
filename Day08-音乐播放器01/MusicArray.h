@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
-@interface MusicArray : NSMutableArray
+@interface MusicArray : NSObject
 @property (nonatomic,strong) NSArray *songArray;
+@property (nonatomic,strong) NSMutableArray *musicMutableArray;
+-(void)addMusic;
 @end

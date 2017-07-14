@@ -16,21 +16,36 @@
     if (self) {
         NSLog(@"hh");
         self.songArray = [[NSBundle mainBundle]pathsForResourcesOfType:@"mp3" inDirectory:nil];
+        self.musicMutableArray  = [[NSMutableArray alloc]initWithCapacity:self.songArray.count];
         for (int i = 0; i < self.songArray.count; i ++) {
             Music *song = [[Music alloc]init];
             song.fileURL = [[NSURL alloc]initFileURLWithPath:self.songArray[i]];
             song.name = [self getMusicName:song.fileURL index:i];
             song.artist = [self getArtist:song.fileURL];
             song.albumName = [self getAlbumName:song.fileURL];
-            [self addObject:song];
+    
+            [self.musicMutableArray addObject:song];
         }
-        
+//        self = [[NSMutableArray alloc]initWithCapacity:self.songArray.count];
     }
-   
     return self;
 }
+//add music
+-(void)addMusic
+{
+//    for (int i = 0; i < self.songArray.count; i ++) {
+//        Music *song = [[Music alloc]init];
+//        song.fileURL = [[NSURL alloc]initFileURLWithPath:self.songArray[i]];
+//        song.name = [self getMusicName:song.fileURL index:i];
+//        song.artist = [self getArtist:song.fileURL];
+//        song.albumName = [self getAlbumName:song.fileURL];
+//        
+//        [self addObject:song];
+//    }
+}
 //获取歌曲名字
--(NSString*)getMusicName:(NSURL*)fileURL index:(int)index{
+-(NSString*)getMusicName:(NSURL*)fileURL index:(int)index
+{
     
     AVURLAsset *asset = [AVURLAsset URLAssetWithURL:fileURL options:nil];
     NSArray *titles = [AVMetadataItem metadataItemsFromArray:asset.commonMetadata withKey:AVMetadataCommonKeyTitle keySpace:AVMetadataKeySpaceCommon];
