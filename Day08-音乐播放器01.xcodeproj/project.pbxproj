@@ -237,11 +237,10 @@
 			isa = PBXGroup;
 			children = (
 				E6EC61E71F1797A300D71063 /* Main */,
-				E6CF93FB1F03832B006AA6FA /* AppDelegate.h */,
-				E6CF93FC1F03832B006AA6FA /* AppDelegate.m */,
-				E6EC61F21F17992400D71063 /* PlayMusic */,
+				E6EC61EC1F1797F200D71063 /* MyTabbarController */,
 				E6EC61E91F1797BF00D71063 /* SearchMusic */,
 				E6EC61E81F1797AF00D71063 /* MyMusic */,
+				E6EC61F21F17992400D71063 /* PlayMusic */,
 				E6EC61ED1F1797FE00D71063 /* LrcParser */,
 				E6CF94011F03832B006AA6FA /* Main.storyboard */,
 				E6CF94041F03832B006AA6FA /* Assets.xcassets */,
@@ -323,8 +322,9 @@
 		E6EC61E71F1797A300D71063 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				E6CF93FB1F03832B006AA6FA /* AppDelegate.h */,
+				E6CF93FC1F03832B006AA6FA /* AppDelegate.m */,
 				E6B1303E1F15FFD100DDBB5B /* Category */,
-				E6EC61EC1F1797F200D71063 /* Controller */,
 			);
 			name = Main;
 			sourceTree = "<group>";
@@ -347,13 +347,13 @@
 			name = SearchMusic;
 			sourceTree = "<group>";
 		};
-		E6EC61EC1F1797F200D71063 /* Controller */ = {
+		E6EC61EC1F1797F200D71063 /* MyTabbarController */ = {
 			isa = PBXGroup;
 			children = (
 				E6EC61E01F17978800D71063 /* myTabBarController.h */,
 				E6EC61E11F17978800D71063 /* myTabBarController.m */,
 			);
-			name = Controller;
+			name = MyTabbarController;
 			sourceTree = "<group>";
 		};
 		E6EC61ED1F1797FE00D71063 /* LrcParser */ = {
