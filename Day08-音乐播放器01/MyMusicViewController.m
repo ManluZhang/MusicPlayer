@@ -74,6 +74,7 @@
     PlayMusicViewController *playMusicVC=[[PlayMusicViewController alloc]init];
     self.tabBarController.tabBar.hidden=YES;
     [self.navigationController pushViewController:playMusicVC animated:YES];
+    self.navigationController.navigationBarHidden = YES;
 }
 
 -(void)showMusicList{

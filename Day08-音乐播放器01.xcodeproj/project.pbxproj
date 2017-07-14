@@ -48,6 +48,7 @@
 		E6B8E2551F1868660063EE5B /* Music.m in Sources */ = {isa = PBXBuildFile; fileRef = E6B8E2541F1868660063EE5B /* Music.m */; };
 		E6B8E2581F1869EE0063EE5B /* MusicArray.m in Sources */ = {isa = PBXBuildFile; fileRef = E6B8E2571F1869EE0063EE5B /* MusicArray.m */; };
 		E6B8E25A1F1873750063EE5B /* MyMusicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E6B8E2591F1873750063EE5B /* MyMusicViewController.m */; };
+		E6B8E25E1F18B9890063EE5B /* SearchResultTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = E6B8E25D1F18B9890063EE5B /* SearchResultTableView.m */; };
 		E6CF93FA1F03832B006AA6FA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E6CF93F91F03832B006AA6FA /* main.m */; };
 		E6CF93FD1F03832B006AA6FA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E6CF93FC1F03832B006AA6FA /* AppDelegate.m */; };
 		E6CF94031F03832B006AA6FA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E6CF94011F03832B006AA6FA /* Main.storyboard */; };
@@ -128,6 +129,8 @@
 		E6B8E2561F1869EE0063EE5B /* MusicArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MusicArray.h; sourceTree = "<group>"; };
 		E6B8E2571F1869EE0063EE5B /* MusicArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MusicArray.m; sourceTree = "<group>"; };
 		E6B8E2591F1873750063EE5B /* MyMusicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyMusicViewController.m; sourceTree = "<group>"; };
+		E6B8E25C1F18B9890063EE5B /* SearchResultTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchResultTableView.h; sourceTree = "<group>"; };
+		E6B8E25D1F18B9890063EE5B /* SearchResultTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchResultTableView.m; sourceTree = "<group>"; };
 		E6CF93F51F03832B006AA6FA /* Day08-音乐播放器01.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Day08-音乐播放器01.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6CF93F91F03832B006AA6FA /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		E6CF93FB1F03832B006AA6FA /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -262,6 +265,15 @@
 			name = Model;
 			sourceTree = "<group>";
 		};
+		E6B8E25B1F18B95E0063EE5B /* View */ = {
+			isa = PBXGroup;
+			children = (
+				E6B8E25C1F18B9890063EE5B /* SearchResultTableView.h */,
+				E6B8E25D1F18B9890063EE5B /* SearchResultTableView.m */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
 		E6CF93EC1F03832B006AA6FA = {
 			isa = PBXGroup;
 			children = (
@@ -369,6 +381,7 @@
 		E6EC61E71F1797A300D71063 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				E6B8E25B1F18B95E0063EE5B /* View */,
 				E6B8E2521F18684C0063EE5B /* Model */,
 				E6B1303E1F15FFD100DDBB5B /* Category */,
 				E6EC61EC1F1797F200D71063 /* Controller */,
@@ -567,6 +580,7 @@
 				E6B63A501F05EA25001A4BE9 /* LrcParser.m in Sources */,
 				E6B130491F1614D800DDBB5B /* NSMutableArray+extension.m in Sources */,
 				E6B8E2581F1869EE0063EE5B /* MusicArray.m in Sources */,
+				E6B8E25E1F18B9890063EE5B /* SearchResultTableView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

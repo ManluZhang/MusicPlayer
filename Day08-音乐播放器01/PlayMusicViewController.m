@@ -42,6 +42,8 @@
     NSInteger currentRow;
     UITableView *listTableView;
     UILabel *listLabel;
+    
+    UILabel *songNameLabel;
 
 }
 @end
@@ -65,6 +67,12 @@
     
     UIImageView *background = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, WIDTH, HEIGHT)];
     background.image = [UIImage imageNamed:@"9.jpeg"];
+//    background.image = [self getBlurredImage:[UIImage imageNamed:@"人生海海.jpg"]];
+    
+    
+    
+    
+    
     [self.view addSubview:background];
     
     //创建一个按钮控制音乐的播放和停止
@@ -200,14 +208,16 @@
     pageControl.enabled = NO;
     [self.view addSubview:pageControl];
     
-//    UILabel *songNameLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, WIDTH, 30)];
-//    fileURL = [[NSURL alloc]initFileURLWithPath:music[index]];
-//    songNameLabel.text = [self getMusicName:fileURL];
-//    [view2 addSubview:songNameLabel];
+    songNameLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, WIDTH, 20)];
+    fileURL = [[NSURL alloc]initFileURLWithPath:music[index]];
+    songNameLabel.text = [self getMusicName:fileURL];
+    songNameLabel.backgroundColor = [UIColor whiteColor];
+    [songNameLabel setTextAlignment:NSTextAlignmentCenter];
+    [view2 addSubview:songNameLabel];
     
     lrcTable = [[UITableView alloc]init];
     lrcTable.frame = view2.bounds;
-    lrcTable.frame = CGRectMake(0, 0, WIDTH, view2.height-20);
+    lrcTable.frame = CGRectMake(0, 20, WIDTH, view2.height-20);
     lrcTable.dataSource = self;
     lrcTable.delegate = self;
     lrcTable.separatorStyle = UITableViewCellSelectionStyleNone;
@@ -313,7 +323,7 @@
     [albumImageTimer invalidate];
     albumImageView.transform = CGAffineTransformIdentity;
     albumImageTimer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(imgTransform) userInfo:nil repeats:YES];
-    
+    songNameLabel.text = [self getMusicName:fileURL];
     [lrcContent doParseLrc:[self getMusicName:fileURL]];
     [lrcTable reloadData];
 }
@@ -611,6 +621,7 @@
 -(void)back{
     [self.navigationController popViewControllerAnimated:YES];
     self.tabBarController.tabBar.hidden = NO;
+    self.navigationController.navigationBarHidden = NO;
 }
 
 @end

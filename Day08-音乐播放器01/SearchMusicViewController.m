@@ -11,7 +11,9 @@
 #import "UIView+Extension.h"
 #import "PlayMusicViewController.h"
 @interface SearchMusicViewController()<UIScrollViewDelegate,UISearchBarDelegate>
-
+{
+    UIScrollView *searchScrollView;
+}
 @property (nonatomic,strong) UIScrollView *scrollView;
 @property (nonatomic,strong) NSTimer *timer;
 @end
@@ -211,6 +213,14 @@
             }
         }
     }
+    
+    //更改垂直方向滚动视图
+    searchScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 70, WIDTH, 1000)];
+    searchScrollView.backgroundColor = [UIColor whiteColor];
+    
+    [self.view addSubview:searchScrollView];
+    
+    
     return YES;
 }
 //开始编辑搜索框内容时
@@ -224,6 +234,7 @@
     searchBar.showsCancelButton = NO;
     searchBar.text = nil;
     [searchBar resignFirstResponder];
+    [searchScrollView removeFromSuperview];
     
 }
 //键盘按下search按钮时调用
