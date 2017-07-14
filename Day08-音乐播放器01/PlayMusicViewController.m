@@ -22,6 +22,7 @@
     UILabel *currentTimeLabel;
     UILabel *fullTimeLabel;
     MusicArray *_music;
+    NSArray *music;
     //    NSMutableArray *randomMusicArray;
     int index;
     UIButton *playBtn;
@@ -51,11 +52,12 @@
     [super viewDidLoad];
 
     //获取当前应用束下所有的mp3音乐
-    _music = [[MusicArray alloc]init];;
+    music = [[NSBundle mainBundle]pathsForResourcesOfType:@"mp3" inDirectory:nil];
+//    _music = [[MusicArray alloc]init];;
     
-    //    randomMusic = [[NSMutableArray alloc]initWithCapacity:_music.count];
+    //    randomMusic = [[NSMutableArray alloc]initWithCapacity:music.count];
     //把第一首音乐转成URL格式
-    NSURL *fileURL = [[NSURL alloc]initFileURLWithPath:_music[0]];
+    NSURL *fileURL = [[NSURL alloc]initFileURLWithPath:music[0]];
     [self getMusicName:fileURL];
     //让audioPlayer默认音乐是第一首音乐
     audioPlayer = [[AVAudioPlayer alloc]initWithContentsOfURL:fileURL error:nil];
@@ -198,6 +200,11 @@
     pageControl.enabled = NO;
     [self.view addSubview:pageControl];
     
+//    UILabel *songNameLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, WIDTH, 30)];
+//    fileURL = [[NSURL alloc]initFileURLWithPath:music[index]];
+//    songNameLabel.text = [self getMusicName:fileURL];
+//    [view2 addSubview:songNameLabel];
+    
     lrcTable = [[UITableView alloc]init];
     lrcTable.frame = view2.bounds;
     lrcTable.frame = CGRectMake(0, 0, WIDTH, view2.height-20);
@@ -278,16 +285,16 @@
 -(void)playMusicWithPlayType{
     
     if ([playType isEqual:@"loop"]||[playType isEqual:@"single"]) {
-        NSURL *fileURL = [[NSURL alloc]initFileURLWithPath:_music[index]];
+        NSURL *fileURL = [[NSURL alloc]initFileURLWithPath:music[index]];
         [self playMusicWithFileURL:fileURL];
     }
     else if ([playType isEqual:@"random"]){
         
-        //        int randomIndex = arc4random_uniform((u_int32_t )_music.count);
+        //        int randomIndex = arc4random_uniform((u_int32_t )music.count);
         //        NSLog(@"%d",randomIndex);
         
-        index = arc4random_uniform((u_int32_t)_music.count);
-        NSURL *fileURL = [[NSURL alloc]initFileURLWithPath:_music[index]];
+        index = arc4random_uniform((u_int32_t)music.count);
+        NSURL *fileURL = [[NSURL alloc]initFileURLWithPath:music[index]];
         [self playMusicWithFileURL:fileURL];
     }
     else{
@@ -341,7 +348,7 @@
         [self playMusicWithPlayType];
     }
     else{
-        index = (int)_music.count-1;
+        index = (int)music.count-1;
         [self playMusicWithPlayType];
     }
 }
@@ -352,7 +359,7 @@
         [self playMusicWithPlayType];
         return;
     }
-    if (index != (_music.count-1)) {
+    if (index != (music.count-1)) {
         index ++;
         [self playMusicWithPlayType];
     }
@@ -401,7 +408,7 @@
         return str;
     }
     else{
-        NSMutableString *str = [[NSMutableString alloc]initWithString:_music[index]];
+        NSMutableString *str = [[NSMutableString alloc]initWithString:music[index]];
         NSLog(@"%@",str);
         return @"";
     }
@@ -501,7 +508,7 @@
     if([tableView isEqual:lrcTable])
         return lrcContent.wordArray.count;
     else if([tableView isEqual:listTableView])
-        return _music.count;
+        return music.count;
     else
         return 0;
 }
@@ -519,7 +526,8 @@
     {
         cell.textLabel.text=lrcContent.wordArray[indexPath.row];
         if(indexPath.row==currentRow)
-            cell.textLabel.textColor = [UIColor colorWithRed:115.0/256.0 green:138.0/256.0 blue:149.0/256.0 alpha:1.0];
+//            cell.textLabel.textColor = [UIColor colorWithRed:115.0/256.0 green:138.0/256.0 blue:149.0/256.0 alpha:1.0];
+            cell.textLabel.textColor = [UIColor orangeColor];
         else
             cell.textLabel.textColor = [UIColor grayColor];
         
@@ -530,7 +538,7 @@
     
     else if ([tableView isEqual:listTableView])
     {
-        NSURL *url=[[NSURL alloc]initFileURLWithPath:_music[indexPath.row]];
+        NSURL *url=[[NSURL alloc]initFileURLWithPath:music[indexPath.row]];
         NSString *musicName=[self getMusicName:url];
         cell.textLabel.text=[NSString stringWithFormat:@"%02d %@",(int)(indexPath.row+1),musicName];
         if(indexPath.row==index){
@@ -549,10 +557,10 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if([tableView isEqual:listTableView]){
         index = (int)indexPath.row;
-        NSURL *fileURL = [[NSURL alloc]initFileURLWithPath:_music[index]];
+        NSURL *fileURL = [[NSURL alloc]initFileURLWithPath:music[index]];
         [self playMusicWithFileURL:fileURL];
         
-        for(int i=0;i<_music.count;i++){
+        for(int i=0;i<music.count;i++){
             NSIndexPath *currentIndexPath=[NSIndexPath indexPathForRow:(int)i inSection:0];
             UITableViewCell *cell=[tableView cellForRowAtIndexPath:currentIndexPath];
             cell.textLabel.textColor=[UIColor blackColor];

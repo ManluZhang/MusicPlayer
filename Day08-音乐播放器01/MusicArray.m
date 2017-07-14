@@ -22,8 +22,11 @@
             song.name = [self getMusicName:song.fileURL index:i];
             song.artist = [self getArtist:song.fileURL];
             song.albumName = [self getAlbumName:song.fileURL];
+            [self addObject:song];
         }
+        
     }
+   
     return self;
 }
 //获取歌曲名字

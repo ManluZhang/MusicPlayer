@@ -47,6 +47,7 @@
 		E6B8E2511F185F350063EE5B /* new6.png in Resources */ = {isa = PBXBuildFile; fileRef = E6B8E24B1F185F350063EE5B /* new6.png */; };
 		E6B8E2551F1868660063EE5B /* Music.m in Sources */ = {isa = PBXBuildFile; fileRef = E6B8E2541F1868660063EE5B /* Music.m */; };
 		E6B8E2581F1869EE0063EE5B /* MusicArray.m in Sources */ = {isa = PBXBuildFile; fileRef = E6B8E2571F1869EE0063EE5B /* MusicArray.m */; };
+		E6B8E25A1F1873750063EE5B /* MyMusicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E6B8E2591F1873750063EE5B /* MyMusicViewController.m */; };
 		E6CF93FA1F03832B006AA6FA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E6CF93F91F03832B006AA6FA /* main.m */; };
 		E6CF93FD1F03832B006AA6FA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E6CF93FC1F03832B006AA6FA /* AppDelegate.m */; };
 		E6CF94031F03832B006AA6FA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E6CF94011F03832B006AA6FA /* Main.storyboard */; };
@@ -73,7 +74,6 @@
 		E6EC61D91F17975600D71063 /* search1.png in Resources */ = {isa = PBXBuildFile; fileRef = E6EC61D81F17975600D71063 /* search1.png */; };
 		E6EC61DB1F17975E00D71063 /* icon1.png in Resources */ = {isa = PBXBuildFile; fileRef = E6EC61DA1F17975E00D71063 /* icon1.png */; };
 		E6EC61DD1F17976B00D71063 /* mymusic1.png in Resources */ = {isa = PBXBuildFile; fileRef = E6EC61DC1F17976B00D71063 /* mymusic1.png */; };
-		E6EC61E21F17978800D71063 /* MyMusicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E6EC61DF1F17978800D71063 /* MyMusicViewController.m */; };
 		E6EC61E31F17978800D71063 /* myTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = E6EC61E11F17978800D71063 /* myTabBarController.m */; };
 		E6EC61E61F17978F00D71063 /* SearchMusicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E6EC61E51F17978F00D71063 /* SearchMusicViewController.m */; };
 		E6EC61F11F1798AF00D71063 /* PlayMusicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E6EC61F01F1798AF00D71063 /* PlayMusicViewController.m */; };
@@ -127,6 +127,7 @@
 		E6B8E2541F1868660063EE5B /* Music.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Music.m; sourceTree = "<group>"; };
 		E6B8E2561F1869EE0063EE5B /* MusicArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MusicArray.h; sourceTree = "<group>"; };
 		E6B8E2571F1869EE0063EE5B /* MusicArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MusicArray.m; sourceTree = "<group>"; };
+		E6B8E2591F1873750063EE5B /* MyMusicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyMusicViewController.m; sourceTree = "<group>"; };
 		E6CF93F51F03832B006AA6FA /* Day08-音乐播放器01.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Day08-音乐播放器01.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6CF93F91F03832B006AA6FA /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		E6CF93FB1F03832B006AA6FA /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -157,7 +158,6 @@
 		E6EC61DA1F17975E00D71063 /* icon1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon1.png; sourceTree = "<group>"; };
 		E6EC61DC1F17976B00D71063 /* mymusic1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mymusic1.png; sourceTree = "<group>"; };
 		E6EC61DE1F17978800D71063 /* MyMusicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyMusicViewController.h; sourceTree = "<group>"; };
-		E6EC61DF1F17978800D71063 /* MyMusicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyMusicViewController.m; sourceTree = "<group>"; };
 		E6EC61E01F17978800D71063 /* myTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = myTabBarController.h; sourceTree = "<group>"; };
 		E6EC61E11F17978800D71063 /* myTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = myTabBarController.m; sourceTree = "<group>"; };
 		E6EC61E41F17978F00D71063 /* SearchMusicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchMusicViewController.h; sourceTree = "<group>"; };
@@ -282,10 +282,11 @@
 			isa = PBXGroup;
 			children = (
 				E6EC61E71F1797A300D71063 /* Main */,
-				E6EC61EC1F1797F200D71063 /* MyTabbarController */,
+				E6CF93FB1F03832B006AA6FA /* AppDelegate.h */,
+				E6CF93FC1F03832B006AA6FA /* AppDelegate.m */,
+				E6EC61F21F17992400D71063 /* PlayMusic */,
 				E6EC61E91F1797BF00D71063 /* SearchMusic */,
 				E6EC61E81F1797AF00D71063 /* MyMusic */,
-				E6EC61F21F17992400D71063 /* PlayMusic */,
 				E6EC61ED1F1797FE00D71063 /* LrcParser */,
 				E6CF94011F03832B006AA6FA /* Main.storyboard */,
 				E6CF94041F03832B006AA6FA /* Assets.xcassets */,
@@ -368,13 +369,9 @@
 		E6EC61E71F1797A300D71063 /* Main */ = {
 			isa = PBXGroup;
 			children = (
-<<<<<<< HEAD
 				E6B8E2521F18684C0063EE5B /* Model */,
-=======
-				E6CF93FB1F03832B006AA6FA /* AppDelegate.h */,
-				E6CF93FC1F03832B006AA6FA /* AppDelegate.m */,
->>>>>>> 5e072909d4f6d983e8e14052946d4f219dafdad9
 				E6B1303E1F15FFD100DDBB5B /* Category */,
+				E6EC61EC1F1797F200D71063 /* Controller */,
 			);
 			name = Main;
 			sourceTree = "<group>";
@@ -383,7 +380,7 @@
 			isa = PBXGroup;
 			children = (
 				E6EC61DE1F17978800D71063 /* MyMusicViewController.h */,
-				E6EC61DF1F17978800D71063 /* MyMusicViewController.m */,
+				E6B8E2591F1873750063EE5B /* MyMusicViewController.m */,
 			);
 			name = MyMusic;
 			sourceTree = "<group>";
@@ -397,13 +394,13 @@
 			name = SearchMusic;
 			sourceTree = "<group>";
 		};
-		E6EC61EC1F1797F200D71063 /* MyTabbarController */ = {
+		E6EC61EC1F1797F200D71063 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
 				E6EC61E01F17978800D71063 /* myTabBarController.h */,
 				E6EC61E11F17978800D71063 /* myTabBarController.m */,
 			);
-			name = MyTabbarController;
+			name = Controller;
 			sourceTree = "<group>";
 		};
 		E6EC61ED1F1797FE00D71063 /* LrcParser */ = {
@@ -558,8 +555,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E6B8E25A1F1873750063EE5B /* MyMusicViewController.m in Sources */,
 				E6EC61E61F17978F00D71063 /* SearchMusicViewController.m in Sources */,
-				E6EC61E21F17978800D71063 /* MyMusicViewController.m in Sources */,
 				E6EC61E31F17978800D71063 /* myTabBarController.m in Sources */,
 				E6CF93FD1F03832B006AA6FA /* AppDelegate.m in Sources */,
 				E64123A11F04D9F500132F4D /* UIView+Extension.m in Sources */,

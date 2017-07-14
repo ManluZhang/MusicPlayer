@@ -20,9 +20,6 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     
-
-    
-    
     //搜索框view
     UIView *searchView = [[UIView alloc]initWithFrame:CGRectMake(0, 20, WIDTH, 50)];
     //背景颜色
@@ -49,7 +46,8 @@
     [self.view addSubview:searchView];
     
     //纵向滚动视图
-    UIScrollView *mainScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, searchView.height+searchView.y, WIDTH, HEIGHT)];
+    UIScrollView *mainScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, searchView.height+searchView.y, WIDTH, HEIGHT-searchView.height-20-self.tabBarController.tabBar.height)];
+    
     
     //横向滚动视图
     _scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, WIDTH, WIDTH*280/750)];
@@ -74,12 +72,13 @@
     [mainScrollView addSubview:_scrollView];
     
     //推荐歌单
-    UIView *recommendMusicView = [[UIView alloc]initWithFrame:CGRectMake(0, _scrollView.height+_scrollView.y +10, WIDTH, 300)];
-    recommendMusicView.backgroundColor = [UIColor redColor];
+    UIView *recommendMusicView = [[UIView alloc]initWithFrame:CGRectMake(0, _scrollView.height+_scrollView.y +10, WIDTH, (WIDTH-10)/3*2+130)];
+//    recommendMusicView.backgroundColor = [UIColor redColor];
     
-    UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, WIDTH, 40)];
+    UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(5, 0, WIDTH-5, 40)];
     titleLabel.text = @"推荐歌单";
-    titleLabel.backgroundColor = [UIColor blueColor];
+    titleLabel.numberOfLines = 2;
+//    titleLabel.backgroundColor = [UIColor blueColor];
     [recommendMusicView addSubview:titleLabel];
     
     NSArray *recommendArray = @[@"华语绝妙改编，把旧歌谣唱出新鲜味",@"融合爵士，七十年代巅峰爵士音乐大师精选",@"后摇，孤独而不孤阴郁自行者",@"高效率专注记忆音乐",@"欧美，心有盏小橘灯，温暖如斯",@"史诗纯音，画面感max 震撼灵魂"];
@@ -88,21 +87,20 @@
     [mainScrollView addSubview:recommendMusicView];
     
     
-    UIView *newMusicView = [[UIView alloc]initWithFrame:CGRectMake(0, recommendMusicView.y+recommendMusicView.height+10, WIDTH, 500)];
-    newMusicView.backgroundColor = [UIColor orangeColor];
-    UILabel *titleLabelNew = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, WIDTH, 50)];
+    UIView *newMusicView = [[UIView alloc]initWithFrame:CGRectMake(0, recommendMusicView.y+recommendMusicView.height+10, WIDTH, recommendMusicView.height)];
+    UILabel *titleLabelNew = [[UILabel alloc]initWithFrame:CGRectMake(5, 0, WIDTH-5, 50)];
     titleLabelNew.text = @"最新音乐";
-    titleLabelNew.backgroundColor = [UIColor purpleColor];
+    titleLabelNew.numberOfLines = 2;
     [newMusicView addSubview:titleLabelNew];
-    NSArray *newMusicArray = @[@"新歌推荐",@"Coming Home——潘玮柏",@"把我拥抱 习谱予",@"True Feeling Galantis",@"H.A.C.K 茶理理",@"Stay With You Cheat Codes/CADE"];
+    NSArray *newMusicArray = @[@"新歌推荐",@"Coming Home 潘玮柏",@"把我拥抱 习谱予",@"True Feeling Galantis",@"H.A.C.K 茶理理",@"Stay With You Cheat Codes/CADE"];
     [self addCubeImage:@"new" contentView:newMusicView textArray:newMusicArray];
     
     [mainScrollView addSubview:newMusicView];
     
-    
+    mainScrollView.bounces = NO;
     mainScrollView.contentSize = CGSizeMake(WIDTH, newMusicView.y+newMusicView.height);
-    mainScrollView.showsHorizontalScrollIndicator = YES;
-    
+    //垂直方向上滚动条 无
+    mainScrollView.showsVerticalScrollIndicator = NO;
     [self.view addSubview:mainScrollView];
     
 }
@@ -116,7 +114,7 @@
             [view addSubview:cubeImgView];
             
             UILabel *textLabel = [[UILabel alloc]initWithFrame:CGRectMake(cubeImgView.x, cubeImgView.y+cubeImgView.height, cubeImgView.width, 40)];
-            textLabel.text = array[i*2+j];
+            textLabel.text = array[i*3+j];
             textLabel.font = [UIFont systemFontOfSize:13];
             [view addSubview:textLabel];
         }
@@ -231,6 +229,7 @@
 //键盘按下search按钮时调用
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
+    NSLog(@"%@",searchBar.text);
     
 }
 
