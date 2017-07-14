@@ -10,6 +10,8 @@
 #import "PlayMusicViewController.h"
 #import "Header.h"
 #import "PlayMusicViewController.h"
+#import "MusicArray.h"
+#import "Music.h"
 @interface MyMusicViewController()<UITableViewDataSource,UITableViewDelegate>
 {
     UITableViewController *musicListViewController;
@@ -18,6 +20,7 @@
     UITableView *musicListView;
     UITableView *singersListView;
     UITableView *albumsListView;
+    MusicArray *musicArray;
 }
 @end
 
@@ -25,7 +28,8 @@
 
 -(void)viewDidLoad{
     [super viewDidLoad];
-    self.view.backgroundColor=[UIColor whiteColor];
+    UIImageView *bgd=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"白云.JPG"]];
+    [self.view addSubview:bgd];
     
     //导航栏的设置
     self.navigationItem.title=@"我的音乐";
@@ -74,7 +78,6 @@
     PlayMusicViewController *playMusicVC=[[PlayMusicViewController alloc]init];
     self.tabBarController.tabBar.hidden=YES;
     [self.navigationController pushViewController:playMusicVC animated:YES];
-    self.navigationController.navigationBarHidden = YES;
 }
 
 -(void)showMusicList{
@@ -108,21 +111,71 @@
     
 }
 
-//-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-//    if([tableView isEqual:musicListView]){
-//        
-//    }
-//    else if([tableView isEqual:singersListView]){
-//        
-//    }
-//    else if([tableView isEqual:albumsListView]){
-//        
-//    }
-//    
-//    else
-//        return 0;
-//    
-//}
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    if([tableView isEqual:musicListView]){
+        musicArray=[[MusicArray alloc]init];
+        return musicArray.songArray.count;
+    }
+    
+    
+    else if([tableView isEqual:singersListView]){
+        NSMutableArray *singersArray=[NSMutableArray array];
+        for(int i=0;i<musicArray.count;i++){
+            Music *tempMusic = musicArray[i];
+            NSString *singerName=tempMusic.artist;
+            
+            if(i==0){
+                [singersArray addObject:[NSString stringWithFormat:@"%@",singerName]];}
+            else{
+                bool flag = false;
+                for(int j=0;j<singersArray.count;j++){
+                    if([singerName isEqualToString:singersArray[j]]){
+                        flag = true;
+                        break;}
+                }
+                
+                if (!flag) {
+                    [singersArray addObject:[NSString stringWithFormat:@"%@",singerName]];
+                }
+            }
+        }
+        return singersArray.count;
+    }
+    
+    
+    else if([tableView isEqual:albumsListView]){
+        
+        NSMutableArray *albumsArray=[NSMutableArray array];
+        for(int i=0;i<musicArray.count;i++){
+            Music *tempMusic = musicArray[i];
+            NSString *albumName=tempMusic.albumName;
+            
+            if(i==0){
+                [albumsArray addObject:[NSString stringWithFormat:@"%@",albumName]];}
+            else{
+                bool flag = false;
+                for(int j=0;j<albumsArray.count;j++){
+                    if([albumName isEqualToString:albumsArray[j]]){
+                        flag = true;
+                        break;
+                    }
+                }
+                
+                
+                if (!flag) {
+                    [albumsArray addObject:[NSString stringWithFormat:@"%@",albumName]];
+                }
+                
+            }
+        }
+        return albumsArray.count;
+        
+    }
+    
+    else
+        return 0;
+    
+}
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *rid=@"UITableViewCell";
@@ -131,6 +184,9 @@
         cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:rid];
     
     if([tableView isEqual:musicListView]){
+        Music *music=musicArray[indexPath.row];
+        cell.textLabel.text=[NSString stringWithFormat:@"%d %@",(int)indexPath.row,music.name];
+        cell.textLabel.textColor=[UIColor grayColor];
         
     }
     else if([tableView isEqual:singersListView]){
